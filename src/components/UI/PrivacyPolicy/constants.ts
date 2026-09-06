@@ -14,7 +14,7 @@
  * each claim is based on.
  */
 
-export const LAST_UPDATED = 'August 28, 2026';
+export const LAST_UPDATED = 'September 6, 2026';
 
 export type PolicyBlock =
   | { type: 'p'; text: string }
@@ -98,7 +98,7 @@ export const sections: PolicySection[] = [
         'Provide, operate, and maintain the OraMedha application for the clinics that use it, and the accounts of the staff and patients within those clinics.',
         'Authenticate users and enforce who can see what — see Section 9 for how access is restricted by role and by clinic.',
         'Generate the AI-assisted features described in Section 15, when a clinic\'s dentist, receptionist, or patient chooses to use them.',
-        'Operate scheduled background processes the application relies on — for example, detecting missed appointments and recording metric history, both of which run inside the database on a schedule.',
+        'Operate automated and background processes required for the functioning, reliability, and maintenance of the OraMedha application.',
         'Maintain the security, integrity, and availability of the platform, including audit trails described in Section 9.',
         'Meet legal, regulatory, tax, or record-keeping obligations that apply to us or, where we act on a clinic\'s behalf, to that clinic.',
       ]),
@@ -117,13 +117,13 @@ export const sections: PolicySection[] = [
       ),
       list([
         'Identity and contact information: name, phone number, date of birth, gender, address, and an emergency contact\'s name and phone number.',
-        'Appointment information: scheduled date and time, duration, how the appointment was booked, its status, and any notes attached to it. Every change to an appointment\'s status is kept in a permanent, append-only history — who changed it, when, and what changed.',
-        'Clinical and treatment records: the type of treatment, its cost, its status, and when it was performed. Clinical notes are split into two kinds: notes visible only to the dentist, and notes the clinic has marked visible to the patient in the patient portal — these are stored separately, and only the patient-visible kind is ever returned to a patient-facing view.',
-        'Dental chart: the clinical status of each individual tooth (using standard FDI numbering, for both adult and primary teeth), with a permanent history of changes to that status.',
-        'Consent records: informed-consent forms for treatments, either signed digitally within the application or uploaded as a scan or photograph of a form signed on paper. Once a consent form is signed, its content is frozen — a later edit to the clinic\'s template does not change what a patient already signed.',
-        'Billing and payment information: amounts billed for treatment, payments received, payment method, and payment dates. An outstanding balance is always calculated from these records at the time it is displayed — it is not stored as a separate figure that could go stale.',
+        'Appointment information: scheduled date and time, duration, how the appointment was booked, its status, notes attached to it, and a history of relevant appointment changes.',
+        'Clinical and treatment records: treatment type, cost, status, date of treatment, and clinical notes recorded by authorised clinic users. Access to clinical information may vary according to the user\'s role and the visibility assigned to that information.',
+        'Dental chart: tooth-level clinical information and the recorded status of individual teeth, including relevant changes recorded over time.',
+        'Consent records: informed-consent forms for treatments, including forms signed digitally within the application or uploaded as a scan or photograph of a form signed outside the application. Signed consent records are preserved so that the record reflects what the patient agreed to at the time of signing.',
+        'Billing and payment information: amounts billed for treatment, payments received, payment methods, payment dates, and outstanding balances.',
         'Follow-up and recall information: due dates and status for recommended follow-up visits.',
-        'Uploaded documents: files a clinic uploads to a patient\'s record, stored in a private storage location that is not publicly accessible.',
+        'Uploaded documents: files, scans, photographs, or other documents uploaded by a clinic to a patient\'s record and protected from unauthorised public access.',
       ]),
       p(
         'This information is processed by OraMedha on behalf of the dental clinic that collected it — the relationship and responsibilities involved are explained in Section 6.'
@@ -147,7 +147,7 @@ export const sections: PolicySection[] = [
       ),
       h3('Information OraMedha processes for its own purposes'),
       p(
-        'Separately, we decide why and how we handle certain information ourselves — this includes account and authentication information for clinic staff, demo requests submitted through this website, communications you send us directly, and technical and security information generated by operating the platform (such as the audit and webhook logs described in Section 9). For this category of information, OraMedha determines the purpose and means of processing.'
+        'Separately, we decide why and how we handle certain information ourselves — this includes account and authentication information for clinic staff, demo requests submitted through this website, communications you send us directly, and technical, security, and service information generated through the operation of the platform. For this category of information, OraMedha determines the purpose and means of processing.'
       ),
     ],
   },
@@ -159,8 +159,8 @@ export const sections: PolicySection[] = [
       p('We share information in the following circumstances, and no others:'),
       list([
         'With the service providers described in Section 8, who host, run, or support the platform, and who are bound to use information only to provide that service.',
-        'Within a clinic, according to each person\'s role — a receptionist, for example, does not have the same visibility into clinical treatment detail as a dentist, and this is enforced at the database level, not only in the interface.',
-        'At a clinic staff member\'s own initiative, in one specific case: a clinic may prepare a WhatsApp reminder message pre-filled with a patient\'s phone number and appointment details. This only opens the staff member\'s own WhatsApp application with the message ready to review — OraMedha\'s servers do not send the message, and this only happens for clinics where the feature has been specifically enabled.',
+        'Within a clinic, according to each person\'s authorised role and permissions. A receptionist, dentist, and patient may have different levels of access appropriate to their role.',
+        'At a clinic staff member\'s initiative, OraMedha may prepare a patient communication, such as an appointment reminder or follow-up, for the staff member to review and send using a third-party communication service such as WhatsApp. The clinic user remains in control of whether the communication is sent.',
         'Where required by law, regulation, court order, or a valid request from a public authority.',
         'To protect the rights, property, or safety of OraMedha, our users, or others, including investigating suspected fraud or a security incident.',
         'In connection with a merger, acquisition, financing, or sale of assets, in which case information would remain subject to a policy at least as protective as this one, and clinics and users would be notified as required by law.',
@@ -176,14 +176,13 @@ export const sections: PolicySection[] = [
     title: 'Service Providers and Subprocessors',
     body: [
       p(
-        'We rely on the following categories of third-party service providers to operate OraMedha. Each is used for a specific, named purpose — this list reflects what the application actually integrates with, not a general list of tools that might be typical for a product like this.'
+        'We rely on third-party technology and service providers to operate OraMedha. These providers perform specific functions necessary to provide, maintain, secure, and support the platform.'
       ),
       list([
-        'Database, authentication, and file storage (Supabase): the primary datastore for clinic, patient, appointment, clinical, billing, and account records; also provides the authentication system (sign-in, session, and password handling) and the private storage used for uploaded documents and signed consent files.',
+        'Database, authentication, and file storage (Supabase): provides infrastructure used to store application information, manage authentication and user sessions, and securely store files used within OraMedha.',
         'Application hosting (Vercel): hosts and serves both this website and the OraMedha application.',
-        'AI processing (Google, via the Gemini API): powers the AI-assisted features described in Section 15. Only server-side application code calls this service; it never receives database credentials or direct database access.',
-        'Workflow automation (n8n): integrated at an infrastructure level to receive automation events. As currently implemented, this connection is inbound only — it does not yet trigger any workflow or receive patient data from the application, and no outbound data is sent to it. This is reserved for future automation features.',
-        'Transactional email (Supabase\'s built-in email delivery, or optionally Resend): used only for account-related emails — such as verifying an email address, resetting a password, or a magic sign-in link — sent by our authentication provider. The application itself does not compose or send email for appointment reminders, receipts, or marketing.',
+        'AI processing (Google, via the Gemini API): supports certain AI-assisted features described in Section 15. Relevant information may be processed through this service when an authorised user uses those features.',
+        'Transactional email: used for account-related communications such as email verification, password resets, and sign-in-related messages.',
         'Product usage analytics (Vercel Analytics): used within the OraMedha application (not this marketing website) to understand feature usage and performance in aggregate.',
       ]),
       p(
@@ -197,21 +196,18 @@ export const sections: PolicySection[] = [
     title: 'Data Security',
     body: [
       p(
-        'The following security measures are implemented in the OraMedha application today. We describe them at the level of what is actually built, rather than in general terms, because we would rather understate this than overstate it.'
+        'OraMedha uses technical and organisational safeguards designed to protect the confidentiality, integrity, and appropriate access to clinic, patient, and account information. The principal safeguards currently implemented include the following:'
       ),
       list([
-        'Row-Level Security: every database table that holds clinic or patient data has database-level access rules enforced by Postgres itself — not only by application code — so that a request can only ever see rows belonging to the correct clinic and the requesting user\'s role. This is treated in our engineering practice as the security guarantee, with application-level checks as an additional layer on top of it, not the only layer.',
-        'Role-based access: a clinic\'s receptionist, dentist, and patients each see a different, narrower slice of information appropriate to their role. Some data is separated at the column level — for example, a dentist\'s private clinical notes are stored in a different field from the notes a clinic has chosen to make visible to a patient, and only the latter is ever returned to a patient-facing view.',
-        'Tenant isolation: every clinic\'s data is scoped by a clinic identifier enforced at the database level, so one clinic\'s staff cannot access another clinic\'s records through the application.',
-        'Immutable audit trails: changes to appointments, to a patient\'s dental chart, and to consent forms are recorded in permanent, append-only logs that ordinary application access cannot alter or delete, and that can only be written to by trusted server-side processes.',
-        'Soft deletion: records such as patients, appointments, treatments, payments, and follow-ups are not immediately, irreversibly deleted from the database when removed through the application. They are marked as removed and excluded from ordinary use, which supports recovery from mistakes and preserves the audit trail described above. See Section 10 for what this means for retention.',
-        'Signed-consent immutability: once a patient signs a consent form, its content is frozen. A clinic editing its consent template afterward does not retroactively change a form a patient has already signed.',
-        'Private file storage: uploaded patient documents and uploaded signed consent files are stored in private storage locations, not publicly accessible URLs.',
-        'Authenticated, secret-gated background jobs: scheduled processes that run inside the database (such as no-show detection) are triggered over an authenticated connection that refuses to run at all if its shared secret is not correctly configured, rather than running without authentication.',
+        'Clinic-level access controls: access controls are designed to prevent users from accessing records belonging to another clinic and to restrict access according to the user\'s authorised role.',
+        'Role-based access: dentists, receptionists, and patients may have different levels of access based on their role, so users are shown only the information and functions appropriate to them.',
+        'Audit history: OraMedha maintains records of relevant changes to important information, including certain appointment, dental-chart, and consent activity, to support integrity, accountability, and review.',
+        'Protection of signed consent records: signed consent records are preserved in a manner designed to maintain the content agreed to by the patient at the time of signing.',
+        'Protected file storage: patient documents and signed consent files are stored with access controls designed to prevent unauthorised public access.',
         'Encryption in transit: this website, the OraMedha application, and its connections to the service providers in Section 8 are served over HTTPS.',
       ]),
       p(
-        'We do not claim compliance with, or certification under, any specific security or privacy standard (for example, HIPAA, India\'s DPDP Act, ISO 27001, or SOC 2) unless and until that has been independently verified and documented — see Section 13 for how this affects our description of applicable law. No system can be guaranteed 100% secure, and we do not claim otherwise.'
+        'We do not claim certification under standards such as ISO 27001 or SOC 2 unless and until such certification has been formally obtained and documented. We aim to operate OraMedha in accordance with applicable privacy and data-protection requirements as they apply to the platform. No system can be guaranteed to be completely secure, and we do not claim otherwise.'
       ),
     ],
   },
@@ -227,10 +223,10 @@ export const sections: PolicySection[] = [
         'The purpose it was collected for, and whether it is still needed for that purpose.',
         'A dental clinic\'s own requirements and instructions, for information processed on the clinic\'s behalf (Section 6) — a clinic may retain patient and clinical records for as long as its own professional, contractual, or record-keeping obligations require.',
         'Applicable legal, regulatory, or professional record-keeping obligations that apply to dental practices, which can require records to be kept for a defined minimum period after a patient\'s last visit.',
-        'Security, audit, and dispute-resolution needs — for example, the append-only history described in Section 9 is retained because it is the evidence trail for a record, not because a specific retention timer applies to it.',
+        'Security, audit, recovery, and dispute-resolution needs, including the need to preserve appropriate records of important activity and changes within the platform.',
       ]),
       p(
-        'The application deletes records through a soft-delete pattern rather than an immediate hard delete: a removed record is marked as removed and excluded from ordinary use rather than instantly and irreversibly erased. Demo requests submitted through this website are kept in a private, manually managed record for as long as needed to respond to and track that inquiry.'
+        'When a record is removed through the application, it may be excluded from ordinary use without being immediately and irreversibly erased. This supports recovery, security, audit, and record-keeping needs. Demo requests submitted through this website are kept in a private, manually managed record for as long as needed to respond to and track the enquiry.'
       ),
       p(
         'If you would like to understand how long specific information about you is likely to be kept, the right first step is your dental clinic if the information relates to your care there (Section 6); for anything else, see Section 18.'
@@ -309,20 +305,25 @@ export const sections: PolicySection[] = [
     title: 'AI and Intelligent Features',
     body: [
       p(
-        'OraMedha includes several AI-assisted features, all built on Google\'s Gemini model and all running server-side — the AI model itself is never given direct database access or credentials, and every instruction it can act on is validated before anything happens. Here is what each feature actually sends and does:'
-      ),
-      list([
-        'Patient Summary (dentist-only): assembles a patient\'s name, age, gender, visit count, last-visit date, outstanding balance, recent treatment details, and patient-visible notes into a structured prompt sent to Gemini, which returns a short written summary. The prompt explicitly instructs the model not to diagnose conditions or recommend treatment, and the summary is intended as a quick-reference aid for the dentist, not a clinical judgment.',
-        'AI Insights (dentist-only): sends pre-computed, clinic-level metrics — counts and amounts, not individual patient records — to Gemini to generate a short list of observations about the clinic\'s operations.',
-        'Clinic Copilot (dentist and receptionist): a conversational assistant. The model can request specific, predefined lookups (executed by our own server code, not by the model directly) and can propose actions such as booking or rescheduling an appointment — but any action that changes data always requires the staff member to explicitly confirm it first; the model cannot take that action on its own in the same turn it suggests it.',
-        'Patient AI Assistant (patient portal): works the same way as the Copilot, but scoped to a signed-in patient\'s own information only — their own appointments, their own patient-visible treatment history, their own payment and balance information, and their own place in the queue. It can propose booking, rescheduling, or cancelling the patient\'s own appointment, again only after the patient explicitly confirms. Messages are rate-limited, length-limited, and screened for obvious prompt-injection attempts before being sent to the model.',
-        'Business Brain explanations: the platform\'s operational-analysis feature computes findings about clinic performance (for example, unused chair time, or overdue follow-ups) using its own deterministic logic, without an AI model. A separate, optional AI step can rewrite an already-computed finding into plainer language for the dentist to read; it works only from the figures the analysis already produced, is checked afterward to reject any new number it did not copy from those figures, and is instructed never to give clinical or business advice.',
-      ]),
-      p(
-        'Because these features send the data described above to Google\'s Gemini API, Google processes that data in order to generate a response. We do not control, and are not in a position to make binding claims about, how Google itself retains this data internally or whether it is used to improve Google\'s own models — this is governed by Google\'s own API terms, which we encourage a clinic to review if this matters to their compliance obligations. We do not tell you that no data leaves our systems, and we do not tell you that Google never retains it, because we have not independently verified either of those things.'
+        'OraMedha includes AI-assisted and intelligent features designed to support authorised users in understanding information, identifying matters that may require attention, prioritising relevant issues, and preparing or supporting actions within clinic workflows.'
       ),
       p(
-        'Every AI feature is an optional enhancement. If Gemini is unavailable or fails, the surrounding page continues to work, and the feature shows a plain message that it is temporarily unavailable rather than blocking anything.'
+        'Depending on the feature being used, relevant patient, clinic, operational, financial, or clinical information may be processed to provide the requested functionality. Certain AI-assisted features use Google\'s Gemini API, which processes the information supplied to it for the purpose of generating the relevant output.'
+      ),
+      p(
+        'AI-assisted outputs may be incomplete or inaccurate and should be reviewed by the relevant user. These features are intended to support clinic users and are not a substitute for professional clinical judgement, diagnosis, or treatment decisions.'
+      ),
+      p(
+        'Some intelligent features may use analysis performed by OraMedha itself rather than an external AI model. We do not disclose the internal methods, rules, or logic used to generate or prioritise those findings.'
+      ),
+      p(
+        'Where a feature proposes an action that requires review or confirmation, the relevant user remains in control of whether that action is taken.'
+      ),
+      p(
+        'AI-assisted features are optional enhancements to the platform. If an external AI service is unavailable, the core OraMedha application remains usable without that feature.'
+      ),
+      p(
+        'Where information is processed by a third-party AI provider, that processing is also subject to the provider\'s applicable terms and privacy practices.'
       ),
     ],
   },
