@@ -1,6 +1,7 @@
 import Layout from '@/components/Layout';
 import './globals.css';
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
 
 /**
  * The title and description a link card shows on WhatsApp, LinkedIn, iMessage
@@ -44,6 +45,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Layout>{children}</Layout>
+        <Analytics />
       </body>
     </html>
   );
