@@ -159,8 +159,9 @@ export const LinksContainer = styled.ul`
   }
 `;
 
-/* The Product column's entries are real anchors and Contact opens the demo
-   dialog. These carry the affordance the list used to give every item. */
+/* The Product column's entries are real anchors, Privacy & Policy is a route,
+   and Contact us discloses the two mailboxes. These carry the affordance the
+   list used to give every item. */
 const footerAction = `
   position: relative;
   display: inline-block;
@@ -203,6 +204,38 @@ export const FooterLink = styled.a`
 
 export const FooterButton = styled.button`
   ${footerAction}
+`;
+
+/* A real route inside the nav list, so it needs Link rather than the in-page
+   anchor the Product column uses. Same affordance as everything beside it. */
+export const FooterRouteLink = styled(Link)`
+  ${footerAction}
+`;
+
+/* The two mailboxes, revealed under "Contact us" rather than sitting in the
+   column permanently — the column is a list of places to go, and two raw
+   addresses in it would read as noise until somebody actually wants them. */
+export const ContactEmails = styled.ul`
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.25rem;
+
+  li {
+    color: #bdbdbd;
+    font-size: 0.9375rem;
+  }
+`;
+
+export const ContactEmailLink = styled.a`
+  ${footerAction}
+  color: #bdbdbd;
+  font-size: 0.9375rem;
+
+  &::after {
+    background-color: #bdbdbd;
+  }
 `;
 
 export const FooterBottom = styled.div`

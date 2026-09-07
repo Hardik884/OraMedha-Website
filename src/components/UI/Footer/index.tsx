@@ -1,8 +1,8 @@
 'use client';
+import { useState } from 'react';
 import Image from 'next/image';
 import ic_copyright from '../../../../public/svgs/ic_copyright.svg';
 import { GetStartedButton, Logo } from '@/components';
-import { useDemoDialog } from '../../Common/DemoDialog/context';
 import {
   SECTION_IDS,
   useScrollToSection,
@@ -13,10 +13,11 @@ import {
  *
  * The Product column mirrors the header and points at the same sections, so
  * both navigations agree and neither carries a Pricing entry there is no page
- * for. "Contact" opens the demo dialog, which is the site's only contact
- * channel. The remaining entries are labels, not links: they name who the
- * product is for, and are styled as plain text so nothing invites a click that
- * would go nowhere.
+ * for. "Contact us" discloses the two mailboxes rather than navigating, and
+ * Privacy & Policy appears under Company as well as in the legal row below —
+ * the same page, reached from wherever a reader looks for it. The remaining
+ * entries are labels, not links: they name who the product is for, and are
+ * styled as plain text so nothing invites a click that would go nowhere.
  *
  * The footer renders on every route, including `/privacy`, where these
  * sections don't exist — so each href carries the homepage's own path rather
@@ -27,9 +28,20 @@ type FooterEntry = {
   label: string;
   /** A section on the homepage. */
   href?: string;
-  /** Opens the demo dialog rather than navigating. */
-  action?: 'demo';
+  /** A real route on this site, not an in-page anchor. */
+  route?: string;
+  /** Reveals the contact addresses rather than navigating. */
+  action?: 'contact';
 };
+
+/**
+ * Where to write. Two boxes, deliberately labelled: a reader who wants to talk
+ * to the company and one who is stuck should not have to guess which is which.
+ */
+const CONTACT_EMAILS = [
+  { address: 'hello@oramedha.com', purpose: 'General enquiries' },
+  { address: 'support@oramedha.com', purpose: 'Existing clinics' },
+];
 
 const linksArr: { title: string; links: FooterEntry[] }[] = [
   {
@@ -51,7 +63,10 @@ const linksArr: { title: string; links: FooterEntry[] }[] = [
   },
   {
     title: 'Company',
-    links: [{ label: 'Contact', action: 'demo' }],
+    links: [
+      { label: 'Contact us', action: 'contact' },
+      { label: 'Privacy & Policy', route: '/privacy' },
+    ],
   },
 ];
 
@@ -70,6 +85,9 @@ import {
   LinksContainer,
   FooterLink,
   FooterButton,
+  FooterRouteLink,
+  ContactEmails,
+  ContactEmailLink,
   FooterBottom,
   CopyRight,
   LegalLinks,
@@ -78,7 +96,7 @@ import {
 
 const Footer = () => {
   const scrollToSection = useScrollToSection();
-  const { open } = useDemoDialog();
+  const [contactOpen, setContactOpen] = useState(false);
 
   return (
     <Wrapper>
@@ -126,10 +144,39 @@ const Footer = () => {
                           >
                             {link.label}
                           </FooterLink>
-                        ) : link.action === 'demo' ? (
-                          <FooterButton type="button" onClick={open}>
+                        ) : link.route ? (
+                          <FooterRouteLink href={link.route}>
                             {link.label}
-                          </FooterButton>
+                          </FooterRouteLink>
+                        ) : link.action === 'contact' ? (
+                          <>
+                            <FooterButton
+                              type="button"
+                              aria-expanded={contactOpen}
+                              aria-controls="footer-contact-emails"
+                              onClick={() => setContactOpen((was) => !was)}
+                            >
+                              {link.label}
+                            </FooterButton>
+                            {/* Rendered either way and hidden with `hidden`, so
+                                aria-controls always points at a real element. */}
+                            <ContactEmails
+                              id="footer-contact-emails"
+                              hidden={!contactOpen}
+                            >
+                              {CONTACT_EMAILS.map((entry) => (
+                                <li key={entry.address}>
+                                  <ContactEmailLink
+                                    href={`mailto:${entry.address}`}
+                                  >
+                                    {entry.address}
+                                  </ContactEmailLink>
+                                  <br />
+                                  {entry.purpose}
+                                </li>
+                              ))}
+                            </ContactEmails>
+                          </>
                         ) : (
                           link.label
                         )}

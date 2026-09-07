@@ -60,10 +60,17 @@ test.describe('Privacy Policy page', () => {
     await page.goto('/');
     await waitForPageReady(page);
 
-    const link = page.getByRole('link', { name: 'Privacy & Policy' });
-    await link.scrollIntoViewIfNeeded();
-    await expect(link).toHaveAttribute('href', '/privacy');
-    await link.click();
+    // Two of them now: one under Company in the nav columns, one in the legal
+    // row below it. Both must reach the same page, so both are asserted.
+    const links = page.getByRole('link', { name: 'Privacy & Policy' });
+    await expect(links).toHaveCount(2);
+    for (const link of await links.all()) {
+      await expect(link).toHaveAttribute('href', '/privacy');
+    }
+
+    const companyLink = links.first();
+    await companyLink.scrollIntoViewIfNeeded();
+    await companyLink.click();
 
     await expect(page).toHaveURL(/\/privacy$/);
     await expect(page.getByRole('heading', { name: 'Privacy Policy', level: 1 })).toBeVisible();
@@ -74,7 +81,7 @@ test.describe('Privacy Policy page', () => {
     await page.goto('/');
     await waitForPageReady(page);
 
-    const link = page.getByRole('link', { name: 'Privacy & Policy' });
+    const link = page.getByRole('link', { name: 'Privacy & Policy' }).last();
     await link.scrollIntoViewIfNeeded();
     await expect(link).toBeVisible();
     await link.click();
@@ -88,6 +95,8 @@ test.describe('Privacy Policy page', () => {
 
     await expect(page.getByTestId('site-nav')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Book a Demo' }).first()).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Privacy & Policy' })).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: 'Privacy & Policy' }).first()
+    ).toBeVisible();
   });
 });
