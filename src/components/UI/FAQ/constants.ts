@@ -27,17 +27,12 @@ export const faqData: FAQItem[] = [
   {
     question: 'What does OraMedha actually cover?',
     answer:
-      'Patients and their history, appointments, the daily queue, the dental chart, treatments and consent, billing and payments, follow-ups and clinic analytics — plus a portal the patient uses themselves. One system rather than a tool for each of those.',
-  },
-  {
-    question: 'Who in the clinic uses it?',
-    answer:
-      'Dentists, receptionists and clinic owners work in the same system, each with the view their job needs. Patients get their own portal, separate from the clinic-facing side.',
+      'OraMedha brings together the day-to-day work of a dental clinic — patients and their history, appointments, queue, dental charting, treatments and consent, billing and payments, follow-ups, analytics, and a patient portal. It can understand the clinic in context, surface what needs attention, and help you act on it.',
   },
   {
     question: 'What makes OraMedha different?',
     answer:
-      'Appointments, patients, clinical records and billing are table stakes for a dental PMS. OraMedha brings those workflows together in a simpler experience, then adds an intelligence layer that surfaces what needs attention and helps you know what to do next. Instead of adding more information to manage, OraMedha turns what is already happening in your clinic into clear action.',
+      'OraMedha is an intelligent system for running a dental clinic. It brings your day-to-day workflows together, surfaces what needs attention, prioritises what matters most, and helps turn those priorities into action — so you can spend less time figuring out what to do and more time running and growing your practice.',
   },
   {
     question: 'What kind of clinics is OraMedha built for?',
@@ -45,9 +40,14 @@ export const faqData: FAQItem[] = [
       'OraMedha is built for dental clinics of all sizes — from solo and independent clinics to larger teams. The workflows stay simple for smaller clinics while giving growing teams the connected visibility and coordination they need.',
   },
   {
-    question: 'What does OraMedha mean?',
+    question: 'Who in the clinic uses it?',
     answer:
-      'OraMedha brings together two ideas: "Ora", inspired by oral and dental care, and "Medha", a Sanskrit word associated with intelligence, wisdom and understanding. Together, the name reflects what we\'re building — intelligence and clarity brought to the way dental clinics work.',
+      'OraMedha works whether you run the clinic yourself or with a team. Dentists, receptionists and clinic owners can work from the same connected system with views appropriate to their role, while patients have a separate portal for their own information.',
+  },
+  {
+    question: 'What support do we get?',
+    answer:
+      'We help you get OraMedha set up, onboard your clinic, and answer day-to-day questions so you’re not left figuring everything out on your own.',
   },
   {
     question: 'How does OraMedha keep clinic data secure?',
@@ -62,6 +62,11 @@ export const faqData: FAQItem[] = [
   {
     question: 'Is clinic data isolated from other clinics?',
     answer:
-      'Yes. Every record belongs to a clinic, and that boundary is enforced in the database itself rather than only in the interface, so an account can only ever reach the records of the clinic it belongs to.',
+      'Yes. Each clinic’s information is kept separate, and users can access only the records associated with the clinic they are authorised to use.',
+  },
+  {
+    question: 'What does OraMedha mean?',
+    answer:
+      'OraMedha brings together two ideas: "Ora", inspired by oral and dental care, and "Medha", a Sanskrit word associated with intelligence, wisdom and understanding. The name reflects what we are building — a system that brings greater intelligence and clarity to how a dental clinic is run.',
   },
 ];

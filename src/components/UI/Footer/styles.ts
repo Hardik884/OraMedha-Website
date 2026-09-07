@@ -90,9 +90,33 @@ export const TextCtn = styled.div`
 
 export const ActionCtn = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 0.75rem;
   margin-top: 0.5rem;
+`;
+
+/**
+ * The reassurance line under Book a Demo, mirroring the hero's. `&&` because
+ * `TextCtn p` above is a descendant selector and would otherwise win: this
+ * paragraph is deliberately smaller and dimmer than the pitch it sits under,
+ * and it gets no card or border of its own.
+ */
+export const CtaSupportNote = styled.p`
+  && {
+    max-width: 19.5625rem;
+    color: #8f8f8f;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.375rem;
+  }
+
+  @media (max-width: 768px) {
+    && {
+      font-size: 0.8125rem;
+      line-height: 1.25rem;
+    }
+  }
 `;
 
 export const FooterNavigation = styled.div`

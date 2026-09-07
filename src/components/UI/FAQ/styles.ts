@@ -14,23 +14,29 @@ export const Inner = styled.div`
   flex-direction: column;
   gap: 6.25rem;
 
+  /* Matched to TrustSection's headline, the section directly above: the FAQ
+     is the page's quiet close, not a bigger statement than the one before it. */
   h1 {
     max-width: 56rem;
-    font-size: 6rem;
+    font-size: 4.75rem;
     font-weight: 400;
   }
 
   @media (max-width: 768px) {
     h1 {
-      font-size: 3.75rem;
+      font-size: 2.25rem;
     }
   }
 `;
 
 export const HeaderText = styled.h1`
   max-width: 56rem;
-  font-size: 6rem;
+  font-size: 4.75rem;
   font-weight: 400;
+
+  @media (max-width: 768px) {
+    font-size: 2.25rem;
+  }
 `;
 
 export const Accordion = styled.div`

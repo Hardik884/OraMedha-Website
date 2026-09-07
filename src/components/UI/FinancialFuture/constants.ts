@@ -5,7 +5,7 @@ import brain_action from '../../../../public/images/product/brain_action.png';
 // SimplicitySection, TrustSection): names this as the intelligence layer
 // sitting on top of the connected workflow above it, and what it actually
 // does with what it finds — surfaces it, then turns it into action.
-export const eyebrow = 'Action and intelligence';
+export const eyebrow = 'Intelligence and guided actions';
 
 /**
  * Both cards show the half of the real briefing that their copy describes: the
@@ -19,14 +19,14 @@ export const cardsInfo = [
     details:
       'OraMedha continuously watches activity across the clinic and brings important issues to the surface before they get lost in the day-to-day',
     visual: brain_attention,
-    alt: "OraMedha's Needs attention list: empty chair time today, and fewer new patients than usual",
+    alt: "OraMedha's Needs attention list: four hours of idle chair time set against ₹1,27,000 of planned treatment nobody booked, and fewer new patients than usual",
   },
   {
     title: 'Know what to do next and take action on it',
     details:
-      'Turn important signals into clear next steps, so you can act on what matters instead of digging through the clinic’s data yourself.',
+      'OraMedha turns important signals into clear next steps, so you can act on what matters instead of digging through the clinic’s data yourself.',
     visual: brain_action,
-    alt: "OraMedha's What to do list, pairing each finding with a step and a Book Appointment button",
+    alt: "OraMedha's What to do list, pairing each finding with a step and a Contact Patients button",
   },
 ];
 
@@ -77,8 +77,8 @@ export const desktopHeaderPhrase = [
   'what to do next.',
 ];
 export const desktopParagraphPhrase = [
-  'OraMedha turns clinic activity into actionable insights so you can see',
-  'what needs attention.',
+  'OraMedha looks across your clinic to identify what needs attention,',
+  'prioritise what matters now, and help you act on it.',
 ];
 
 // For mobile
@@ -88,7 +88,7 @@ export const mobileHeaderPhrase = [
   'to do next.',
 ];
 export const mobileParagraphPhrase = [
-  'OraMedha turns clinic activity into',
-  'actionable insights so you can see',
-  'what needs attention.',
+  'OraMedha looks across your clinic to',
+  'identify what needs attention, prioritise',
+  'what matters now, and help you act on it.',
 ];

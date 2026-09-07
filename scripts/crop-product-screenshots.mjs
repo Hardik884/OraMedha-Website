@@ -164,11 +164,22 @@ await region('dashboard', 'offer_queue',
 await nativeRegion('patient-treatments', 'offer_patient',
   { x: 236, y: 44, width: 520 }, OFFER_ASPECT, 'Priya Nair, profile header');
 
-// 690 wide is the narrowest that fits BOTH the "Dental Chart" heading and the
-// full status legend — the legend is what makes the tooth colouring mean
-// anything, and at 660 its last item was cut off the right edge.
+// Starts on the clean top edge of the chart panel, NOT on the heading: at
+// y 510 the crop opened exactly on "Dental Chart" and sliced the tops of the
+// letters, which read as a broken frame rather than a detail of a screen.
+// y 490 puts ~26px of white above the heading.
+//
+// The bottom edge lands in the gap just under the status legend — the legend is
+// what makes the tooth colouring mean anything, so it has to survive, and the
+// previous 690/510 region ran on past it into dead grey background.
+//
+// Width is the only thing that sets on-screen scale here, and it is boxed in
+// from both sides: the heading pins the left edge at the content margin, and
+// the arch sits far right in a 1920-wide capture, so narrowing to zoom in eats
+// teeth off the right. 660 is about as tight as this capture allows while
+// keeping the heading and the legend — 0.60x, up from 0.57x.
 await nativeRegion('patient-chart', 'offer_chart',
-  { x: SIDEBAR, y: 510, width: 690 }, OFFER_ASPECT, 'Dental Chart, teeth + legend');
+  { x: SIDEBAR, y: 490, width: 660 }, OFFER_ASPECT, 'Dental Chart, teeth + legend');
 
 // The revenue headline, NOT the Remaining Balances list. Those rows put the
 // patient name and the amount owed ~1190 CSS px apart, so no crop tight enough to

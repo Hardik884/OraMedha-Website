@@ -9,10 +9,14 @@ mockup, an illustration, or hand-built UI.
 
 - **App**: OraMedha PMS, run locally via `npm run dev:local` (points at a
   local Supabase instance — never the hosted/production project).
-- **Data**: the seeded demo clinic **BrightSmile Dental Studio**
-  (`00000000-0000-0000-0000-000000000001`), signed in as `brain@dentgrow.test`.
-  All patients, appointments, treatments and payments are disposable local
-  demo data — no real patient information appears in any frame.
+- **Data**: the demo clinic at `00000000-0000-0000-0000-000000000001`, signed
+  in as `brain@dentgrow.test`. All patients, appointments, treatments and
+  payments are disposable local demo data — no real patient information appears
+  in any frame. The five non-Actions screens were shot against a richer
+  **BrightSmile Dental Studio** dataset that was never committed and no longer
+  exists locally; the Actions frames were re-shot later against the PMS's own
+  committed `supabase/seed.sql` clinic, which is deliberately thin. See
+  "The Actions re-shoot" below.
 - **"Today"**: the clinic's seeded activity was originally anchored to a
   fixed date. Before capture, that clinic's appointment/treatment/payment/
   queue timestamps were shifted forward (in the local Supabase container
@@ -30,7 +34,7 @@ mockup, an illustration, or hand-built UI.
 | Screen | PMS route | Viewport | Patient/data shown |
 |---|---|---|---|
 | Today's Dashboard | `/dentist` | 1920×1150 | Full day: 24 appointments, live queue, KPIs |
-| Actions (Business Brain) | `/dentist/business-brain` | 1680×1300 | Clinic health 67 · 4 "Needs attention" findings paired with 4 "What to do" actions |
+| Actions (Business Brain) | `/dentist/business-brain` | 1680×1300 | Clinic health 69 · 3 "Needs attention" findings paired with 3 "What to do" actions |
 | Patient Profile — Treatments | `/dentist/patients/[id]?tab=treatments` | 1600×1100 | Priya Nair — 4 visits, 6 treatments, a real outstanding balance |
 | Patient Profile — Dental Chart | `/dentist/patients/[id]?tab=dental-chart` | 1920×1150 | Rohan Patel — the one seeded patient whose chart spans every tooth status (recommended, planned, in-progress, completed, missing) |
 | Billing & Payments | `/dentist/payments` | 1680×1200 | Today's revenue, 10 patients with remaining balances, a real payment ledger |
@@ -141,7 +145,54 @@ a ~1.45 aspect so the card row renders at one consistent size. It also hard-code
 each region in CSS pixels, and that is the one part of the pipeline that needs
 revisiting if the app's layout changes materially.
 
-## What changed in this round
+## The Actions re-shoot
+
+The Actions screen was re-captured on its own after the rest of the set. The
+shipped `brain_action.png` showed nothing but "Book Appointment" buttons, which
+undersold what the right-hand column does — it also offers "Contact Patients"
+and "Create Follow-up", inline, depending on what the finding is. The old
+capture could not show that: the cards carrying those buttons sat below the
+1300px frame's bottom edge.
+
+Two things about that re-shoot are worth recording, because both cost time:
+
+- **The richer BrightSmile dataset no longer exists locally.** That data was
+  never committed — `supabase/seed.sql` in the PMS seeds a deliberately *thin*
+  clinic so the Business Brain has something to complain about, and its numbers
+  are extreme enough to read badly on a marketing page ("15 hr of chair time
+  went unused today", "0% of next week's chair time is booked"). The demo clinic
+  is now shaped by `scripts/capture-data.sql` in THIS repo, which is applied
+  before capturing and is documented at length in the file itself. Read that
+  header before touching the data: four different thresholds have to hold
+  simultaneously for the Actions screen to show anything worth photographing,
+  and one of them (`minimumDailyAppointments`) is calibrated per clinic from the
+  slots offered today, so shortening the day to cut idle hours also moves the
+  bar the day's bookings are measured against.
+- **A stale `.next` cache renders the whole app unstyled.** A long-running dev
+  server started 404ing its own JS chunks, and Playwright happily captured the
+  result: correct content, no CSS at all, every link default-blue. The capture
+  scripts wait for `networkidle` and for fonts, neither of which catches this.
+  If a frame comes back looking like a bare HTML document, delete `.next` in the
+  PMS repo and restart the dev server.
+
+The frames now report a small practice having a quiet day: 4 hr of idle chair
+time against ₹1,27,000 of planned treatment that five patients never booked a
+return visit for, and a week ahead 20% booked. Every figure is still the
+briefing's own output; the SQL only changes what it is reading.
+
+`offer_chart.png` was re-cropped in the same pass. It opened exactly on the
+"Dental Chart" heading and sliced the tops of the letters — a broken frame
+rather than a detail of a screen. It now starts 26px above the heading, ends in
+the gap below the status legend instead of running on into dead grey, and sits
+at 0.60x rather than 0.57x.
+
+Only the four Actions-derived files were regenerated
+(`business-brain-daily.png`, `brain_banner_mobile.png`, `brain_attention.png`,
+`brain_action.png`); the other nine came back byte-identical from their
+untouched captures. Every crop region in `crop-product-screenshots.mjs` still
+applies unchanged — the app's Actions layout has not moved.
+
+## The full-set round before that
 
 Recaptured against the app's new brand mark: every prior frame showed the retired
 tooth-and-arrow logo in the sidebar.
@@ -163,7 +214,7 @@ screen states severity in words rather than colour alone, carries a
 forward-looking "Next week is filling up slowly" finding, and labels ownership
 "Delegate".
 
-## The round before this one
+## The round before that one
 
 The prior set was captured against DentGrow-branded seed data and covered three
 screens (dashboard, clinical workflow, business brain). It was replaced by a

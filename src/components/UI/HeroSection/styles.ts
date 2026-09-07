@@ -83,3 +83,23 @@ export const HeroTextContainer = styled.div`
     }
   }
 `;
+
+/**
+ * The reassurance line under the demo button. Deliberately quieter than
+ * `HeaderMainText p` — smaller than the hero body copy and a dimmer grey — so
+ * it reads as a footnote to the call to action rather than a second sentence
+ * of the pitch. No card, border or background: it is just text under a button.
+ */
+export const CtaSupportNote = styled.p`
+  margin-top: 1rem;
+  color: #8f8f8f;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.375rem;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+  }
+`;

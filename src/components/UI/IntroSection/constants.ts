@@ -2,19 +2,26 @@ import ic_arrows_right_left from '../../../../public/svgs/ic_arrows_right_left.s
 import ic_identification from '../../../../public/svgs/ic_identification.svg';
 import ic_banknotes from '../../../../public/svgs/ic_banknotes.svg';
 
+// SimplicitySection above now makes the "one connected workflow" point in
+// almost these words, so this leads with the front desk itself — the day it is
+// running, rather than the list of things that workflow contains. It also
+// stays clear of the three cards below, which already name the day’s list, the
+// shared queue and the loose ends.
+
 // For desktop
 export const desktopHeaderPhrase = ['Less front-desk chaos'];
 export const desktopParagraphPhrase = [
-  'Appointments, queues, check-ins, payments and follow-ups stay in one',
-  'connected workflow.',
+  'The front desk stops holding the day together by hand — everything it',
+  'runs on is visible to whoever needs it, at the moment they need it.',
 ];
 
 // For mobile
 export const mobileHeaderPhrase = ['Less front-desk', 'chaos'];
 export const mobileParagraphPhrase = [
-  'Appointments, queues, check-ins, payments',
-  'and follow-ups stay in one connected',
-  'workflow.',
+  'The front desk stops holding the day',
+  'together by hand — everything it runs on is',
+  'visible to whoever needs it, at the moment',
+  'they need it.',
 ];
 
 export const edges = [

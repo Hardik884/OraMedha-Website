@@ -91,7 +91,7 @@ export default function OpengraphImage() {
               color: '#229870',
             }}
           >
-            Action and intelligence
+            Intelligence and action
           </div>
           <div
             style={{

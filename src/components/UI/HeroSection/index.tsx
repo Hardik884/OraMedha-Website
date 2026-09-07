@@ -1,6 +1,12 @@
 'use client';
 import Image from 'next/image';
-import { Wrapper, Inner, Pill, HeroTextContainer } from './styles';
+import {
+  Wrapper,
+  Inner,
+  Pill,
+  HeroTextContainer,
+  CtaSupportNote,
+} from './styles';
 import ic_chevron_right from '../../../../public/svgs/ic_chevron_right.svg';
 import { GetStartedButton } from '@/components';
 import MaskText from '@/components/Common/MaskText';
@@ -10,6 +16,7 @@ import {
   useScrollToSection,
 } from '../../../../libs/useScrollToSection';
 import {
+  ctaSupportLine,
   mobileParagraphPhrases,
   mobilePhrases,
   paragraphPhrases,
@@ -46,6 +53,7 @@ const HeroSection = () => {
           )}
         </HeroTextContainer>
         <GetStartedButton size="large" />
+        <CtaSupportNote>{ctaSupportLine}</CtaSupportNote>
       </Inner>
     </Wrapper>
   );

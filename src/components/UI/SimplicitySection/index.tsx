@@ -5,9 +5,11 @@ import { useIsMobile } from '../../../../libs/useIsMobile';
 import {
   desktopHeaderPhrase,
   desktopParagraphPhrase,
+  desktopSecondParagraphPhrase,
   eyebrow,
   mobileHeaderPhrase,
   mobileParagraphPhrase,
+  mobileSecondParagraphPhrase,
 } from './constants';
 
 /**
@@ -33,11 +35,13 @@ const SimplicitySection = () => {
               <>
                 <MaskText phrases={mobileHeaderPhrase} tag="h1" />
                 <MaskText phrases={mobileParagraphPhrase} tag="p" />
+                <MaskText phrases={mobileSecondParagraphPhrase} tag="p" />
               </>
             ) : (
               <>
                 <MaskText phrases={desktopHeaderPhrase} tag="h1" />
                 <MaskText phrases={desktopParagraphPhrase} tag="p" />
+                <MaskText phrases={desktopSecondParagraphPhrase} tag="p" />
               </>
             )}
           </HeaderMainText>

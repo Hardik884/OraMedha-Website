@@ -64,6 +64,7 @@ import {
   CallToAction,
   TextCtn,
   ActionCtn,
+  CtaSupportNote,
   FooterNavigation,
   GridColumn,
   LinksContainer,
@@ -91,13 +92,21 @@ const Footer = () => {
                 site asks for — there is no sign-in or account link anywhere. */}
             <CallToAction>
               <TextCtn>
-                <h3>Bring your clinic together.</h3>
+                <h3>A clearer way to run your clinic.</h3>
                 <p>
-                  One connected system for the people, patients and processes
-                  that keep your clinic growing.
+                  Bring your clinical work, operations and intelligence together
+                  — so you can stay on top of what matters and keep your clinic
+                  growing.
                 </p>
                 <ActionCtn>
                   <GetStartedButton size="default" />
+                  {/* A reassurance line under the button, matching the hero's:
+                      quieter than the paragraph above it, and no card of its
+                      own — the closing ask is still just the demo. */}
+                  <CtaSupportNote>
+                    See how OraMedha could work for your clinic — with
+                    onboarding and support included.
+                  </CtaSupportNote>
                 </ActionCtn>
               </TextCtn>
             </CallToAction>

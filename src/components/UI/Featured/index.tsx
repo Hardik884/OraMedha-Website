@@ -59,7 +59,10 @@ const Featured = () => {
         </ImageContainer>
         <h2>One system for the way your clinic works</h2>
         <ParallaxImages>
-          <ParallaxText baseVelocity={-4}>
+          {/* Slow enough to read a passing label rather than to register as
+              motion — the row names what the system covers, so it has to be
+              legible while it drifts. */}
+          <ParallaxText baseVelocity={-1.5}>
             {connectedAreas.map((area, i) => (
               <MarqueeItem key={i}>{area}</MarqueeItem>
             ))}

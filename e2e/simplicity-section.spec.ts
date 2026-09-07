@@ -12,7 +12,9 @@ test.describe('Simplicity section', () => {
     await expect(section.getByRole('heading', { name: 'Everything connected.' })).toBeVisible();
     await expect(section.getByRole('heading', { name: 'Nothing complicated.' })).toBeVisible();
     await expect(
-      section.getByText('Streamlined workflows keep everything', { exact: false })
+      section.getByText('The intelligence stays in the background', {
+        exact: false,
+      })
     ).toBeVisible();
 
     // Kept as a small typography-only moment: no screenshot or product UI.
