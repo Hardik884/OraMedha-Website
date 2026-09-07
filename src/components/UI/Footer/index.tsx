@@ -14,8 +14,9 @@ import {
  * The Product column mirrors the header and points at the same sections, so
  * both navigations agree and neither carries a Pricing entry there is no page
  * for. "Contact us" discloses the two mailboxes rather than navigating, and
- * Privacy & Policy appears under Company as well as in the legal row below —
- * the same page, reached from wherever a reader looks for it. The remaining
+ * Privacy & Policy sits under Company, which is the only place it appears: it
+ * used to be duplicated in the legal row below, one link too many for one
+ * page. The remaining
  * entries are labels, not links: they name who the product is for, and are
  * styled as plain text so nothing invites a click that would go nowhere.
  *
@@ -34,14 +35,8 @@ type FooterEntry = {
   action?: 'contact';
 };
 
-/**
- * Where to write. Two boxes, deliberately labelled: a reader who wants to talk
- * to the company and one who is stuck should not have to guess which is which.
- */
-const CONTACT_EMAILS = [
-  { address: 'hello@oramedha.com', purpose: 'General enquiries' },
-  { address: 'support@oramedha.com', purpose: 'Existing clinics' },
-];
+/** Where to write, revealed by "Contact us". */
+const CONTACT_EMAILS = ['hello@oramedha.com', 'support@oramedha.com'];
 
 const linksArr: { title: string; links: FooterEntry[] }[] = [
   {
@@ -90,8 +85,6 @@ import {
   ContactEmailLink,
   FooterBottom,
   CopyRight,
-  LegalLinks,
-  LegalLink,
 } from './styles';
 
 const Footer = () => {
@@ -164,15 +157,11 @@ const Footer = () => {
                               id="footer-contact-emails"
                               hidden={!contactOpen}
                             >
-                              {CONTACT_EMAILS.map((entry) => (
-                                <li key={entry.address}>
-                                  <ContactEmailLink
-                                    href={`mailto:${entry.address}`}
-                                  >
-                                    {entry.address}
+                              {CONTACT_EMAILS.map((address) => (
+                                <li key={address}>
+                                  <ContactEmailLink href={`mailto:${address}`}>
+                                    {address}
                                   </ContactEmailLink>
-                                  <br />
-                                  {entry.purpose}
                                 </li>
                               ))}
                             </ContactEmails>
@@ -192,9 +181,6 @@ const Footer = () => {
               <Image src={ic_copyright} alt="" aria-hidden />
               OraMedha
             </CopyRight>
-            <LegalLinks>
-              <LegalLink href="/privacy">Privacy & Policy</LegalLink>
-            </LegalLinks>
           </FooterBottom>
         </FooterMainContent>
       </Inner>

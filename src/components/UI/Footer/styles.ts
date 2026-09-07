@@ -214,13 +214,23 @@ export const FooterRouteLink = styled(Link)`
 
 /* The two mailboxes, revealed under "Contact us" rather than sitting in the
    column permanently — the column is a list of places to go, and two raw
-   addresses in it would read as noise until somebody actually wants them. */
+   addresses in it would read as noise until somebody actually wants them.
+
+   `&[hidden]` is load-bearing. The `hidden` attribute hides an element through
+   the UA stylesheet's `display: none`, which a class selector outranks — so
+   `display: flex` here quietly beat it and the addresses showed permanently.
+   Any styled component given both a display and the hidden attribute needs
+   this line. */
 export const ContactEmails = styled.ul`
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   margin: 0.75rem 0 0.25rem;
+
+  &[hidden] {
+    display: none;
+  }
 
   li {
     color: #bdbdbd;
@@ -246,24 +256,6 @@ export const FooterBottom = styled.div`
 
   @media (max-width: 768px) {
     flex-wrap: wrap;
-  }
-`;
-
-/* A real route, not an in-page anchor, so it is a plain flex row rather than
-   the LinksContainer's <ul> — there is only ever the one entry here. */
-export const LegalLinks = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-`;
-
-export const LegalLink = styled(Link)`
-  ${footerAction}
-  color: #efefef;
-  font-size: 1rem;
-
-  @media (max-width: 768px) {
-    font-size: 0.875rem;
   }
 `;
 
