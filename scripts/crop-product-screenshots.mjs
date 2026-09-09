@@ -233,8 +233,15 @@ await nativeRegion('patient-treatments', 'offer_patient',
 // y 344 sits in it, 20px above the heading, and height grows by the same 20
 // (260 -> 280) so the bottom edge — already correct, ~23px below the second
 // card's own border — doesn't move.
+//
+// x 248 was the same failure a third time, on the LEFT edge: the content's
+// own left margin, flush against the frame. The sidebar ends at x 224, so
+// there's a 24px gap before the content starts; x 228 sits 4px inside it —
+// close enough to the sidebar not to waste the margin, far enough not to
+// pick up its edge — and width grows by the same 20 (460 -> 480) so the
+// right edge doesn't move either.
 await exactRegion('patient-treatments', 'offer_treatments',
-  { x: 248, y: 344, width: 460, height: 280 }, "Treatments, Priya Nair's two records");
+  { x: 228, y: 344, width: 480, height: 280 }, "Treatments, Priya Nair's two records");
 
 // The revenue headline, NOT the Remaining Balances list. Those rows put the
 // patient name and the amount owed ~1190 CSS px apart, so no crop tight enough to
