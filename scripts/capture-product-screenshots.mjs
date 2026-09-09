@@ -47,11 +47,31 @@ const SCREENS = [
   { name: 'appointments', path: '/dentist/appointments?filter=today', width: 1680, height: 1200 },
 ];
 
-/** Patient-scoped screens, resolved after login because the ids are seeded UUIDs. */
+/**
+ * Patient-scoped screens, resolved after login because the ids are seeded
+ * UUIDs. `match: 'Rohan'` named a patient from the original "BrightSmile
+ * Dental Studio" dataset (see PRODUCT_SCREENSHOTS.md) — that data no longer
+ * exists locally, so this pointed at nothing and the screen was silently
+ * skipped. Asha Menon is the local seed's own patient with dental-chart
+ * entries; her chart is shaped for this capture by
+ * scripts/capture-data-dashboard-chart.sql.
+ */
 const PATIENT_SCREENS = [
   { name: 'patient-treatments', tab: 'treatments', match: 'Priya', width: 1600, height: 1100 },
-  { name: 'patient-chart', tab: 'dental-chart', match: 'Rohan', width: 1920, height: 1150 },
+  { name: 'patient-chart', tab: 'dental-chart', match: 'Asha', width: 1920, height: 1150 },
 ];
+
+/**
+ * Optional scope, so a re-shoot of one or two screens doesn't have to run
+ * (and log in for) the other four. `SCREENS_ONLY=dashboard,patient-chart
+ * node scripts/capture-product-screenshots.mjs`. Unset, every screen below
+ * runs, exactly as before.
+ */
+const only = process.env.SCREENS_ONLY?.split(',').map((s) => s.trim());
+const screens = only ? SCREENS.filter((s) => only.includes(s.name)) : SCREENS;
+const patientScreens = only
+  ? PATIENT_SCREENS.filter((s) => only.includes(s.name))
+  : PATIENT_SCREENS;
 
 /** Everything that must settle before a frame is worth keeping. */
 async function settle(page) {
@@ -108,7 +128,7 @@ await signIn(auth);
 const storageState = await auth.storageState();
 await auth.close();
 
-for (const screen of SCREENS) await shot(screen, storageState);
+for (const screen of screens) await shot(screen, storageState);
 
 // Patient screens need real ids. Resolved through the app's own search box rather
 // than by scraping the first page of the list: the list is alphabetical and
@@ -120,7 +140,7 @@ for (const screen of SCREENS) await shot(screen, storageState);
   });
   const page = await context.newPage();
 
-  for (const screen of PATIENT_SCREENS) {
+  for (const screen of patientScreens) {
     await page.goto(`${APP}/dentist/patients`, { waitUntil: 'domcontentloaded' });
     await page.getByPlaceholder(/Search by name or phone/i).fill(screen.match);
     // Search is debounced and refetches; wait for the row itself to appear.

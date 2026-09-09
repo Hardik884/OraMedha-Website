@@ -64,11 +64,11 @@ export const links = [
     linkTo: 'Product',
   },
   {
-    href: `/#${SECTION_IDS.solutions}`,
-    linkTo: 'Solutions',
+    href: `/#${SECTION_IDS.intelligence}`,
+    linkTo: 'Intelligence',
   },
   {
     href: `/#${SECTION_IDS.security}`,
-    linkTo: 'Security',
+    linkTo: 'FAQs',
   },
 ];

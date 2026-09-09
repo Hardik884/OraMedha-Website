@@ -20,6 +20,7 @@ import {
 import MaskText from '@/components/Common/MaskText';
 import AnimatedNumber from '@/components/Common/AnimatedNumber';
 import { useIsMobile } from '../../../../libs/useIsMobile';
+import { SECTION_IDS } from '../../../../libs/useScrollToSection';
 import {
   areas,
   cardsInfo,
@@ -35,7 +36,7 @@ const FinancialFuture = () => {
   const isMobile = useIsMobile();
 
   return (
-    <Wrapper>
+    <Wrapper id={SECTION_IDS.intelligence}>
       <Inner>
         <Header>
           <h3>{eyebrow}</h3>

@@ -15,7 +15,7 @@ test.describe('Header navigation', () => {
 
     const nav = page.getByTestId('site-nav');
     await expect(nav.locator('a[href="/#product"]')).toBeVisible();
-    await expect(nav.locator('a[href="/#solutions"]')).toBeVisible();
+    await expect(nav.locator('a[href="/#intelligence"]')).toBeVisible();
     await expect(nav.locator('a[href="/#security"]')).toBeVisible();
 
     await nav.locator('a[href="/#security"]').click();
@@ -46,11 +46,11 @@ test.describe('Header navigation', () => {
     await waitForPageReady(page);
 
     const nav = page.getByTestId('site-nav');
-    await nav.locator('a[href="/#solutions"]').click();
+    await nav.locator('a[href="/#intelligence"]').click();
 
-    await expect(page).toHaveURL(/\/#solutions$/);
+    await expect(page).toHaveURL(/\/#intelligence$/);
     await waitForPageReady(page);
-    await expect(page.locator('#solutions')).toBeInViewport();
+    await expect(page.locator('#intelligence')).toBeInViewport();
   });
 });
 

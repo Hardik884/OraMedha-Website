@@ -57,7 +57,7 @@ const Featured = () => {
             )}
           </Div>
         </ImageContainer>
-        <h2>One system for the way your clinic works</h2>
+        <h2>One intelligent system for the way your clinic works</h2>
         <ParallaxImages>
           {/* Slow enough to read a passing label rather than to register as
               motion — the row names what the system covers, so it has to be

@@ -15,7 +15,7 @@ export const eyebrow = 'Intelligence and guided actions';
  */
 export const cardsInfo = [
   {
-    title: 'See what needs attention',
+    title: 'See what needs attention.',
     details:
       'OraMedha continuously watches activity across the clinic and brings important issues to the surface before they get lost in the day-to-day',
     visual: brain_attention,

@@ -43,8 +43,8 @@ const linksArr: { title: string; links: FooterEntry[] }[] = [
     title: 'Product',
     links: [
       { label: 'Product', href: `/#${SECTION_IDS.product}` },
-      { label: 'Solutions', href: `/#${SECTION_IDS.solutions}` },
-      { label: 'Security', href: `/#${SECTION_IDS.security}` },
+      { label: 'Intelligence', href: `/#${SECTION_IDS.intelligence}` },
+      { label: 'FAQs', href: `/#${SECTION_IDS.security}` },
     ],
   },
   {

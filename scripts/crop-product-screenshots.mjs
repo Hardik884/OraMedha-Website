@@ -43,6 +43,16 @@ const px = (cssValue) => Math.round(cssValue * DSF);
 /** The app's sidebar width in CSS px — every content-only crop starts after it. */
 const SIDEBAR = 256;
 
+/**
+ * Optional scope, matching capture-product-screenshots.mjs's SCREENS_ONLY: a
+ * re-crop of one or two outputs doesn't have to touch (or need the source
+ * captures for) the other eleven. `OUTPUTS_ONLY=dashboard-workspace,offer_queue
+ * node scripts/crop-product-screenshots.mjs`. Unset, every output below runs,
+ * exactly as before.
+ */
+const only = process.env.OUTPUTS_ONLY?.split(',').map((s) => s.trim());
+const skip = (out) => only && !only.includes(out);
+
 await mkdir(OUT, { recursive: true });
 
 /**
@@ -51,6 +61,7 @@ await mkdir(OUT, { recursive: true });
  * its width and the target aspect, then the result is resized.
  */
 async function region(src, out, { x, y, width }, [outW, outH], label) {
+  if (skip(out)) return;
   const image = sharp(`${IN}/${src}.png`);
   const meta = await image.metadata();
   const aspect = outW / outH;
@@ -79,6 +90,7 @@ async function region(src, out, { x, y, width }, [outW, outH], label) {
  * ~1000px file against a ~394px slot clears it two and a half times over.
  */
 async function nativeRegion(src, out, { x, y, width }, aspect, label) {
+  if (skip(out)) return;
   const image = sharp(`${IN}/${src}.png`);
   const meta = await image.metadata();
 
@@ -100,6 +112,7 @@ async function nativeRegion(src, out, { x, y, width }, aspect, label) {
 
 /** Resize a whole capture. Used where the capture's aspect already matches. */
 async function whole(src, out, [outW, outH], label) {
+  if (skip(out)) return;
   await sharp(`${IN}/${src}.png`)
     .resize(outW, outH, { fit: 'fill' })
     .png({ compressionLevel: 9 })

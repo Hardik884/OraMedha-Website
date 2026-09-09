@@ -12,11 +12,14 @@ mockup, an illustration, or hand-built UI.
 - **Data**: the demo clinic at `00000000-0000-0000-0000-000000000001`, signed
   in as `brain@dentgrow.test`. All patients, appointments, treatments and
   payments are disposable local demo data — no real patient information appears
-  in any frame. The five non-Actions screens were shot against a richer
-  **BrightSmile Dental Studio** dataset that was never committed and no longer
-  exists locally; the Actions frames were re-shot later against the PMS's own
-  committed `supabase/seed.sql` clinic, which is deliberately thin. See
-  "The Actions re-shoot" below.
+  in any frame. The five non-Actions screens were originally shot against a
+  richer **BrightSmile Dental Studio** dataset that was never committed and no
+  longer exists locally; the Actions frames were re-shot later against the
+  PMS's own committed `supabase/seed.sql` clinic, which is deliberately thin
+  (see "The Actions re-shoot" below), and the Dashboard and Dental Chart
+  frames were re-shot later still against that same thin clinic, topped up by
+  `scripts/capture-data-dashboard-chart.sql` (see "The Dashboard and Dental
+  Chart re-shoot" below).
 - **"Today"**: the clinic's seeded activity was originally anchored to a
   fixed date. Before capture, that clinic's appointment/treatment/payment/
   queue timestamps were shifted forward (in the local Supabase container
@@ -33,10 +36,10 @@ mockup, an illustration, or hand-built UI.
 
 | Screen | PMS route | Viewport | Patient/data shown |
 |---|---|---|---|
-| Today's Dashboard | `/dentist` | 1920×1150 | Full day: 24 appointments, live queue, KPIs |
+| Today's Dashboard | `/dentist` | 1920×1150 | Full day: 12 appointments, ₹33,800 revenue, a four-patient live queue |
 | Actions (Business Brain) | `/dentist/business-brain` | 1680×1300 | Clinic health 69 · 3 "Needs attention" findings paired with 3 "What to do" actions |
 | Patient Profile — Treatments | `/dentist/patients/[id]?tab=treatments` | 1600×1100 | Priya Nair — 4 visits, 6 treatments, a real outstanding balance |
-| Patient Profile — Dental Chart | `/dentist/patients/[id]?tab=dental-chart` | 1920×1150 | Rohan Patel — the one seeded patient whose chart spans every tooth status (recommended, planned, in-progress, completed, missing) |
+| Patient Profile — Dental Chart | `/dentist/patients/[id]?tab=dental-chart` | 1920×1150 | Asha Menon — the local seed's own patient with dental-chart entries, built out to all 32 teeth spanning every tooth status (recommended, planned, in-progress, completed, missing) |
 | Billing & Payments | `/dentist/payments` | 1680×1200 | Today's revenue, 10 patients with remaining balances, a real payment ledger |
 | Appointments | `/dentist/appointments?filter=today` | 1680×1200 | 32 appointments across dates, doctors and statuses |
 
@@ -137,6 +140,16 @@ node scripts/capture-product-screenshots.mjs   # six full screens  -> capture/
 node scripts/crop-product-screenshots.mjs      # thirteen shipped  -> public/images/product/
 ```
 
+Re-shooting one or two screens doesn't have to touch (or log in for) the
+other four — both scripts accept a scope, keyed by their own `name`/`out`
+values:
+
+```bash
+SCREENS_ONLY=dashboard,patient-chart node scripts/capture-product-screenshots.mjs
+OUTPUTS_ONLY=dashboard-workspace,clinical-workflow,workspace_banner_mobile,clinical_banner_mobile,offer_queue,offer_chart \
+  node scripts/crop-product-screenshots.mjs
+```
+
 `capture/` is gitignored: it is large, and everything in it is reproducible.
 
 The crop script hard-codes each output size, because those are the sizes the
@@ -144,6 +157,52 @@ site's slots were tuned against — the four `offer_*` previews in particular sh
 a ~1.45 aspect so the card row renders at one consistent size. It also hard-codes
 each region in CSS pixels, and that is the one part of the pipeline that needs
 revisiting if the app's layout changes materially.
+
+## The Dashboard and Dental Chart re-shoot
+
+Both screens were re-captured on their own, against the current UI and the
+PMS's own thin committed `supabase/seed.sql` clinic — the richer BrightSmile
+dataset both were originally shot against no longer exists locally (see
+"Source" above), and by this round `patient-chart`'s old `match: 'Rohan'`
+named a patient that dataset held and this one never did, so the capture
+script had been silently skipping that screen (`! could not find a patient
+matching "Rohan" - skipped`) for however long the data had been gone. Fixed
+in the script to match Asha Menon, the one local-seed patient with any
+dental-chart entries at all — three teeth, nowhere near enough to
+photograph.
+
+Both screens also needed more data than the base seed carries to be worth
+shooting: two appointments is a near-empty dashboard, and three teeth is
+mostly a blank arch. `scripts/capture-data-dashboard-chart.sql` — a
+companion to `capture-data.sql`, not a replacement; the two shape the same
+clinic for opposite purposes and are never applied together — adds nine more
+patients and ten more appointments spread across today's hours (most
+completed, a few checked in), a treatment and a same-day payment for every
+completed one (₹33,800 total — "Revenue: Today" reads from payments, not
+from a completed treatment's own cost, which a completed-but-unpaid
+treatment already in the base seed proved by contributing nothing), and
+rebuilds Asha's chart to all 32 adult teeth spanning every status the
+chart's own legend defines.
+
+The appointment times are the one non-obvious part of that file: they're
+stored as the intended DISPLAY hour minus 5:30, not the display hour
+itself, because the base seed's own two appointments (Priya, Imran) turn
+out to already work that way — `10:00+00` displays as `15:30` IST, not
+`10:00`. Storing the intended hour directly, as a first pass of the file
+did, landed six new appointments' stored UTC value in that hour instead,
+which round-tripped through the same display conversion to between 5:30pm
+and 9:30pm — past the clinic's actual closing time, reading as a clinic
+open half the night.
+
+Apply it after `capture-data.sql` if both happen to be needed (they won't
+be, for the same shoot), or on its own against the base seed:
+
+```bash
+docker exec -i supabase_db_dentgrow psql -U postgres -d postgres < scripts/capture-data-dashboard-chart.sql
+```
+
+Re-run any time "today" needs to be current again — every row it owns is
+deleted and rebuilt, so it's safe to apply repeatedly.
 
 ## The Actions re-shoot
 

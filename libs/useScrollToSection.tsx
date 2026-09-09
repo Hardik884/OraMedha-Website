@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 /** Ids of the homepage sections the navigation points at. */
 export const SECTION_IDS = {
   product: 'product',
+  intelligence: 'intelligence',
   solutions: 'solutions',
   security: 'security',
 } as const;
