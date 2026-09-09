@@ -220,12 +220,21 @@ await nativeRegion('patient-treatments', 'offer_patient',
 // whole row blurry at ~0.3x.
 //
 // An explicit height, not `OFFER_ASPECT`: at the aspect's own height the
-// crop ran on ~90px past "Added 09 Sep 2026" into blank white — no text cut
-// off, but a gap the same size as the failure the other three regions' `y`
-// comments are about avoiding, just on the bottom edge instead of a line of
-// text. 260 ends right on the second card's own lower border.
+// crop ran on ~90px past the second card's own bottom border into blank
+// white — no text cut off, but a gap the same size as the failure the other
+// three regions' `y` comments are about avoiding, just on the bottom edge
+// instead of a line of text.
+//
+// y 364 — the "Treatments" heading's own top edge — was a second version of
+// that same failure on the TOP edge instead: the heading sat flush against
+// the frame with no margin at all, reading as a crop that had cut into the
+// page rather than one that had been deliberately framed. There's a clean
+// 25px gap above the heading, below the tab row, before either is touched;
+// y 344 sits in it, 20px above the heading, and height grows by the same 20
+// (260 -> 280) so the bottom edge — already correct, ~23px below the second
+// card's own border — doesn't move.
 await exactRegion('patient-treatments', 'offer_treatments',
-  { x: 248, y: 364, width: 460, height: 260 }, "Treatments, Priya Nair's two records");
+  { x: 248, y: 344, width: 460, height: 280 }, "Treatments, Priya Nair's two records");
 
 // The revenue headline, NOT the Remaining Balances list. Those rows put the
 // patient name and the amount owed ~1190 CSS px apart, so no crop tight enough to
