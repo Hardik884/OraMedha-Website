@@ -17,12 +17,12 @@ export const cardsInfo = [
   {
     title: 'See what needs attention.',
     details:
-      'OraMedha continuously watches activity across the clinic and brings important issues to the surface before they get lost in the day-to-day',
+      'OraMedha continuously watches activity across the clinic and brings important issues to the surface before they get lost in the day-to-day.',
     visual: brain_attention,
     alt: "OraMedha's Needs attention list: four hours of idle chair time set against ₹1,27,000 of planned treatment nobody booked, and fewer new patients than usual",
   },
   {
-    title: 'Know what to do next and take action on it',
+    title: 'Know what to do next and take action on it.',
     details:
       'OraMedha turns important signals into clear next steps, so you can act on what matters instead of digging through the clinic’s data yourself.',
     visual: brain_action,

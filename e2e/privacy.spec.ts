@@ -62,7 +62,7 @@ test.describe('Privacy Policy page', () => {
 
     // Exactly one, under Company. It was briefly duplicated in the legal row
     // below; the count is asserted so a second copy cannot creep back in.
-    const links = page.getByRole('link', { name: 'Privacy & Policy' });
+    const links = page.getByRole('link', { name: 'Privacy Policy' });
     await expect(links).toHaveCount(1);
     await expect(links).toHaveAttribute('href', '/privacy');
 
@@ -93,7 +93,7 @@ test.describe('Privacy Policy page', () => {
     await expect(page.getByTestId('site-nav')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Book a Demo' }).first()).toBeVisible();
     await expect(
-      page.getByRole('link', { name: 'Privacy & Policy' })
+      page.getByRole('link', { name: 'Privacy Policy' })
     ).toBeVisible();
   });
 });

@@ -35,8 +35,13 @@ type FooterEntry = {
   action?: 'contact';
 };
 
-/** Where to write, revealed by "Contact us". */
-const CONTACT_EMAILS = ['hello@oramedha.com', 'support@oramedha.com'];
+/** How to reach the company, revealed by "Contact us": two mailboxes and a
+ *  phone number, each with the href its own protocol needs. */
+const CONTACT_ITEMS = [
+  { label: 'hello@oramedha.com', href: 'mailto:hello@oramedha.com' },
+  { label: 'support@oramedha.com', href: 'mailto:support@oramedha.com' },
+  { label: '+91 83750 74216', href: 'tel:+918375074216' },
+];
 
 const linksArr: { title: string; links: FooterEntry[] }[] = [
   {
@@ -60,7 +65,7 @@ const linksArr: { title: string; links: FooterEntry[] }[] = [
     title: 'Company',
     links: [
       { label: 'Contact us', action: 'contact' },
-      { label: 'Privacy & Policy', route: '/privacy' },
+      { label: 'Privacy Policy', route: '/privacy' },
     ],
   },
 ];
@@ -157,10 +162,10 @@ const Footer = () => {
                               id="footer-contact-emails"
                               hidden={!contactOpen}
                             >
-                              {CONTACT_EMAILS.map((address) => (
-                                <li key={address}>
-                                  <ContactEmailLink href={`mailto:${address}`}>
-                                    {address}
+                              {CONTACT_ITEMS.map((item) => (
+                                <li key={item.href}>
+                                  <ContactEmailLink href={item.href}>
+                                    {item.label}
                                   </ContactEmailLink>
                                 </li>
                               ))}
