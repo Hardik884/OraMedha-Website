@@ -38,7 +38,7 @@ mockup, an illustration, or hand-built UI.
 |---|---|---|---|
 | Today's Dashboard | `/dentist` | 1920×1150 | Full day: 12 appointments, ₹33,800 revenue, a four-patient live queue |
 | Actions (Business Brain) | `/dentist/business-brain` | 1680×1300 | Clinic health 69 · 3 "Needs attention" findings paired with 3 "What to do" actions |
-| Patient Profile — Treatments | `/dentist/patients/[id]?tab=treatments` | 1600×1100 | Priya Nair — 4 visits, 6 treatments, a real outstanding balance |
+| Patient Profile — Treatments | `/dentist/patients/[id]?tab=treatments` | 1600×1100 | Priya Nair — 5 visits, 2 treatments (one completed, one planned) |
 | Patient Profile — Dental Chart | `/dentist/patients/[id]?tab=dental-chart` | 1920×1150 | Asha Menon — the local seed's own patient with dental-chart entries, built out to all 32 teeth spanning every tooth status (recommended, planned, in-progress, completed, missing) |
 | Billing & Payments | `/dentist/payments` | 1680×1200 | Today's revenue, 10 patients with remaining balances, a real payment ledger |
 | Appointments | `/dentist/appointments?filter=today` | 1680×1200 | 32 appointments across dates, doctors and statuses |
@@ -59,17 +59,22 @@ All files live in `public/images/product/`.
 | `brain_action.png` | Actions — the "What to do" column | "Know what to do next" card |
 | `offer_queue.png` | Today's Dashboard — the Live Queue widget | "Appointments and queue" card |
 | `offer_patient.png` | Patient Profile (Priya Nair) — header + treatments | "Patients and history" card |
-| `offer_chart.png` | Dental Chart — both arches + legend | "Clinical records" card |
+| `offer_treatments.png` | Patient Profile — Treatments list, Priya Nair's two records | "Clinical records" card |
 | `offer_billing.png` | Billing & Payments — revenue + remaining balances | "Billing and payments" card |
 | `appointments-workspace.png` | Appointments (full capture, resized) | Operations, the full-width banner under "Less front-desk chaos" |
 | `appointments_banner_mobile.png` | Appointments, portrait crop | Operations, below 768px |
 
 ### Crop aspects
 
-The four `offer_*` previews are cropped to a common ~1.45 aspect, so the set
-renders at one consistent size and the cards crop nothing further at render
-time. Changing one of them means matching that aspect, or the card it sits in
-will start cropping it.
+Three of the four `offer_*` previews are cropped to a common ~1.45 aspect
+(`OFFER_ASPECT` in the crop script), so that set renders at one consistent
+size and the cards crop nothing further at render time. `offer_treatments.png`
+is the exception — an explicit width and height instead, because at
+`OFFER_ASPECT`'s own height the crop ran on past its last line of real
+content into blank white space (see "The `offer_*` previews must be TIGHT
+crops" below). `ImageCtn`'s `object-fit: contain` sizes each preview to its
+own aspect inside the same `max-height` slot regardless, so this doesn't
+misalign anything — the row just isn't four identical rectangles anymore.
 
 `panel_right.png` is gone. Operations used to carry a cropped slice of the
 appointments list at 44rem, which shrank a whole screen to 704px and left its
@@ -157,6 +162,43 @@ site's slots were tuned against — the four `offer_*` previews in particular sh
 a ~1.45 aspect so the card row renders at one consistent size. It also hard-codes
 each region in CSS pixels, and that is the one part of the pipeline that needs
 revisiting if the app's layout changes materially.
+
+## The offer_queue fix, and Clinical records switching to Treatments
+
+Two follow-ups to the Dashboard/Dental Chart re-shoot above, found after it
+shipped.
+
+**`offer_queue.png` was showing the Actions card, not the Live Queue.**
+`{ x: 1080, y: 468, width: 392 }` used to land exactly on the Live Queue
+card — before this round's re-shoot added an "Actions" card above it in the
+same column, pushing Live Queue down without moving it sideways. `x` and
+`width` were still correct; only `y` was stale (468 -> 763, confirmed
+against the running app's own layout, not guessed from the image). Nothing
+else needed to change.
+
+This is the risk the pipeline's own docs already named — "hard-codes each
+region in CSS pixels, and that is the one part of the pipeline that needs
+revisiting if the app's layout changes materially" — and it's silent by
+construction: the crop still succeeds, it just crops the wrong thing, so
+nothing fails loudly. Re-check the `offer_*` crops by eye after any Dashboard
+layout change, not just after a re-shoot of Dashboard itself.
+
+**"Clinical records" now shows the Treatments tab, not the Dental Chart.**
+The dental chart already carries the FinancialFreedom banner lower on the
+page; showing it a second time here was redundant, and Treatments is a
+better fit for what the card's own copy describes ("A dental chart,
+treatments and consent..."). `offer_chart.png` is gone — nothing references
+it — replaced by `offer_treatments.png`, a crop of the same
+`patient-treatments` capture `offer_patient.png` already uses, showing
+Priya Nair's two treatment records (name + date on each).
+
+That crop uses an explicit width and height (`exactRegion`), not
+`OFFER_ASPECT`, for the same reason `offer_billing` avoids the Remaining
+Balances list: a treatment row puts its name (left) and its status badge +
+cost (right) about 1200 CSS px apart, too far apart to fit both ends in a
+crop narrow enough to stay sharp. This crop keeps the left side — sharp, at
+0.86x — rather than the whole row at ~0.3x. The card's copy already
+describes billing and status; the image doesn't have to repeat it.
 
 ## The Dashboard and Dental Chart re-shoot
 

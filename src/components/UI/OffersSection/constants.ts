@@ -1,6 +1,6 @@
 import offer_queue from '../../../../public/images/product/offer_queue.png';
 import offer_patient from '../../../../public/images/product/offer_patient.png';
-import offer_chart from '../../../../public/images/product/offer_chart.png';
+import offer_treatments from '../../../../public/images/product/offer_treatments.png';
 import offer_billing from '../../../../public/images/product/offer_billing.png';
 
 // Same eyebrow-plus-headline shape as the sections below it (see
@@ -45,9 +45,9 @@ export const offers = [
       'One record per patient: contact details, visit history, notes and what they still owe.',
   },
   {
-    illustration: offer_chart,
+    illustration: offer_treatments,
     title: 'Clinical records',
-    alt: 'An OraMedha dental chart with per-tooth treatment status and its legend',
+    alt: "OraMedha's Treatments list for a patient, showing each treatment's name, date and status",
     details:
       'A dental chart, treatments and consent that stay attached to the patient rather than to a folder.',
   },
