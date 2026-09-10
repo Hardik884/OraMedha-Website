@@ -7,14 +7,13 @@ import { Analytics } from '@vercel/analytics/next';
  * The title and description a link card shows on WhatsApp, LinkedIn, iMessage
  * and the like — kept apart from the `<title>`/`description` below because
  * those are tested verbatim (see e2e/homepage.spec.ts) and read as a tab
- * label, not a pitch. This is the pitch: the same "action and intelligence
- * layer" and "designed around how clinics actually work" language the
- * homepage itself uses (see FinancialFuture and TrustSection), so a shared
- * link promises exactly what the page delivers.
+ * label, not a pitch. This is the pitch: "OraMedha | Intelligent Clinic
+ * Management for Dentists" plus a line on what the product actually does day
+ * to day, so a shared link promises exactly what the page delivers.
  */
-const shareTitle = 'OraMedha — Action and Intelligence for Dental Clinics';
+const shareTitle = 'OraMedha | Intelligent Clinic Management for Dentists';
 const shareDescription =
-  'OraMedha connects appointments, patients, clinical records and billing in one workflow, then adds an action and intelligence layer that surfaces what needs attention — designed around how clinics actually work.';
+  'Run and grow your dental clinic with intelligence and clarity. OraMedha brings the day-to-day work of your clinic together, helps you see what needs attention, and act on what matters.';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://oramedha.com'),

@@ -27,7 +27,7 @@ export const runtime = 'edge';
  * the extra network fetch on every render for a passing resemblance to SF
  * Pro Display.
  */
-export const alt = 'OraMedha — Action and Intelligence for Dental Clinics';
+export const alt = 'OraMedha | Intelligent Clinic Management for Dentists';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
