@@ -17,6 +17,7 @@ export const Inner = styled.div`
     font-size: 1.25rem;
     font-weight: 500;
     text-transform: uppercase;
+    text-align: center;
     margin-top: 6.5rem;
   }
 
