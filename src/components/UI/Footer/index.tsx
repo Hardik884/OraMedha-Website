@@ -35,12 +35,30 @@ type FooterEntry = {
   action?: 'contact';
 };
 
-/** How to reach the company, revealed by "Contact us": two mailboxes and a
- *  phone number, each with the href its own protocol needs. */
-const CONTACT_ITEMS = [
+/**
+ * How to reach the company, revealed by "Contact us": two mailboxes, a phone
+ * number, and the company's WhatsApp and social profiles, each with the href its
+ * own protocol needs. `external` marks the ones that leave the site, which open
+ * in a new tab; mailto: and tel: hand off to the visitor's own app instead.
+ *
+ * WhatsApp is the SAME number as the phone entry above it, in wa.me form: digits
+ * only, country code first, no plus or spaces.
+ */
+const CONTACT_ITEMS: { label: string; href: string; external?: boolean }[] = [
   { label: 'hello@oramedha.com', href: 'mailto:hello@oramedha.com' },
   { label: 'support@oramedha.com', href: 'mailto:support@oramedha.com' },
   { label: '+91 83750 74216', href: 'tel:+918375074216' },
+  { label: 'WhatsApp', href: 'https://wa.me/918375074216', external: true },
+  {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/getoramedha',
+    external: true,
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/oramedha',
+    external: true,
+  },
 ];
 
 const linksArr: { title: string; links: FooterEntry[] }[] = [
@@ -164,7 +182,15 @@ const Footer = () => {
                             >
                               {CONTACT_ITEMS.map((item) => (
                                 <li key={item.href}>
-                                  <ContactEmailLink href={item.href}>
+                                  <ContactEmailLink
+                                    href={item.href}
+                                    {...(item.external
+                                      ? {
+                                          target: '_blank',
+                                          rel: 'noopener noreferrer',
+                                        }
+                                      : {})}
+                                  >
                                     {item.label}
                                   </ContactEmailLink>
                                 </li>

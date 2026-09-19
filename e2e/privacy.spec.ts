@@ -54,7 +54,7 @@ test.describe('Privacy Policy page', () => {
     }
   });
 
-  test('footer Privacy & Policy link navigates to /privacy from the homepage', async ({
+  test('footer Privacy Policy link navigates to /privacy from the homepage', async ({
     page,
   }) => {
     await page.goto('/');
@@ -73,12 +73,12 @@ test.describe('Privacy Policy page', () => {
     await expect(page.getByRole('heading', { name: 'Privacy Policy', level: 1 })).toBeVisible();
   });
 
-  test('footer Privacy & Policy link works from the mobile menu', async ({ page }) => {
+  test('footer Privacy Policy link works from the mobile menu', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
     await waitForPageReady(page);
 
-    const link = page.getByRole('link', { name: 'Privacy & Policy' });
+    const link = page.getByRole('link', { name: 'Privacy Policy' });
     await link.scrollIntoViewIfNeeded();
     await expect(link).toBeVisible();
     await link.click();

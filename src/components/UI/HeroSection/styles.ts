@@ -103,3 +103,31 @@ export const CtaSupportNote = styled.p`
     line-height: 1.25rem;
   }
 `;
+
+/**
+ * The free-trial offer under the demo button. A step brighter and larger than
+ * `CtaSupportNote`, which sits directly beneath it, and capped in width so the
+ * long sentence breaks into two balanced lines rather than one stretched one.
+ */
+export const CtaTrialNote = styled.p`
+  max-width: 34rem;
+  margin: 1.25rem auto 0;
+  color: #bdbdbd;
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  text-align: center;
+  text-wrap: balance;
+
+  /* The reassurance line follows with its own top margin; keep the pair
+     reading as one stack rather than two separated blocks. */
+  & + p {
+    margin-top: 0.75rem;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 22rem;
+    font-size: 0.9375rem;
+    line-height: 1.375rem;
+  }
+`;

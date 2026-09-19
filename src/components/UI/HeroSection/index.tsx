@@ -6,6 +6,7 @@ import {
   Pill,
   HeroTextContainer,
   CtaSupportNote,
+  CtaTrialNote,
 } from './styles';
 import ic_chevron_right from '../../../../public/svgs/ic_chevron_right.svg';
 import { GetStartedButton } from '@/components';
@@ -17,6 +18,7 @@ import {
 } from '../../../../libs/useScrollToSection';
 import {
   ctaSupportLine,
+  ctaTrialLine,
   mobileParagraphPhrases,
   mobilePhrases,
   paragraphPhrases,
@@ -53,6 +55,7 @@ const HeroSection = () => {
           )}
         </HeroTextContainer>
         <GetStartedButton size="large" />
+        <CtaTrialNote>{ctaTrialLine}</CtaTrialNote>
         <CtaSupportNote>{ctaSupportLine}</CtaSupportNote>
       </Inner>
     </Wrapper>

@@ -24,3 +24,12 @@ export const mobileParagraphPhrases = [
  */
 export const ctaSupportLine =
   'Personal onboarding and responsive support included.';
+
+/**
+ * The free-trial offer, directly under the button and above the reassurance
+ * line. It is the reason to press the button, so it reads a step brighter than
+ * the note beneath it — but still well below the paragraph above, so the hero
+ * keeps one loud thing (the headline) rather than two.
+ */
+export const ctaTrialLine =
+  'Avail a 15-day free trial with hands-on support from OraMedha to help your clinic work smarter and grow.';
