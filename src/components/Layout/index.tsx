@@ -7,6 +7,7 @@ import { GlobalStyles } from './GlobalStyles';
 import { Footer, Header, Preloader } from '..';
 import DemoDialog from '../Common/DemoDialog';
 import { DemoDialogProvider } from '../Common/DemoDialog/context';
+import FoundingClinicPopup from '../Common/FoundingClinicPopup';
 import { scrollToTarget } from '../../../libs/useScrollToSection';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -27,6 +28,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <Footer />
           </div>
           <DemoDialog />
+          <FoundingClinicPopup />
           <DeepLinkToSection ready={complete} />
         </DemoDialogProvider>
       </ReactLenis>
